@@ -1,0 +1,54 @@
+<html>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <head>
+      <title>GPT Datset Interact</title>
+   </head>
+   <body>
+      <h3>Interact with your dataset and unlock the power of Gen AI</h3>
+      <p>File Name: {{name}}</p>
+      <p>Dataset Content</p>
+      {{data|safe}}
+      <br>
+      <div>
+         <h3>Enter Promt</h3>
+         <textarea id="promt" style = "width: 500px; height: 100px;" ></textarea>
+         <button id="send" style="background-color: #4CAF50; color: white; position:relative; bottom: 10px; cursor:pointer" onclick="gpt();"> Send </button>
+      </div>  
+   </body>
+
+   <script>
+      function gpt(){
+         var promt = $('#promt').val();
+         var json_data = [{"promt": promt}];
+         console.log("promt: ", promt);
+         $.ajax({
+            type: 'POST',
+            url: '/generative',
+            contentType: "application/json",
+            data: JSON.stringify(json_data),
+            success: function(response){
+                console.log("ajax response: ", response);
+            },
+            error: function(error){
+                console.log(error);
+            }
+        });
+     }
+      /*$(function(){
+         $('send').click(function(){
+             var promt = $('#promt').val();
+             $.ajax({
+                 url: '/generative',
+                 data: promt,
+                 type: 'POST',
+                 success: function(response){
+                     console.log(response);
+                 },
+                 error: function(error){
+                     console.log(error);
+                 }
+             });
+         });
+     }); */
+   </script>
+</html>
